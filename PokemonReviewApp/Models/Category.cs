@@ -1,4 +1,4 @@
-﻿using PokemonReviewApp.Models;
+﻿using Pokemon_Review_App.Models;
 
 namespace Pokemon_Review_App.Models
 {
