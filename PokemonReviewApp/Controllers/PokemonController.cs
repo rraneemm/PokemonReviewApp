@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Pokemon_Review_App.Models;
 using PokemonReviewApp.Dtos;
 using PokemonReviewApp.Interfaces;
+using PokemonReviewApp.Repositories;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace PokemonReviewApp.Controllers
@@ -13,11 +14,13 @@ namespace PokemonReviewApp.Controllers
     {
         private readonly IPokemonRepository _pokemonRepository;
         private readonly IMapper _mapper;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public PokemonController(IPokemonRepository pokemonRepository, IMapper mapper)
+        public PokemonController(IPokemonRepository pokemonRepository, IMapper mapper, CategoryRepository categoryRepository)
         {
             _pokemonRepository = pokemonRepository;
             _mapper = mapper;
+            _categoryRepository = categoryRepository;
         }
 
         [HttpGet]
@@ -62,6 +65,19 @@ namespace PokemonReviewApp.Controllers
                 return BadRequest(ModelState);
 
             return Ok(rating);
+        }
+
+        [HttpGet("{categoryId}")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Category>))]
+        public IActionResult GetPokemonByCategoryId(int categoryId)
+        {
+
+            var pokemons = _mapper.Map<List<PokemonDto>>(_categoryRepository.GetPokemonsByCategory(categoryId));
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(pokemons);
         }
     }
 }
