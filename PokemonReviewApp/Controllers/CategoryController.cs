@@ -31,26 +31,25 @@ namespace PokemonReviewApp.Controllers
             if (!_categoryRepository.CategoriesExists(categoryId))
                 return NotFound();
 
-            var pokemon = _mapper.Map<CategoryDto>(_categoryRepository.GetCategoryByID(categoryId));
+            var category = _mapper.Map<CategoryDto>(_categoryRepository.GetCategoryByID(categoryId));
 
-            return Ok(pokemon)
+            return Ok(category)
 ;        }
-        // get categories by name
-         //TODO: need to fetch the id of that name -->> inside the repo not here!!!
-//        [HttpGet("{name}")]  
-//        [ProducesResponseType(200, Type = typeof(Category))]
-//        [ProducesResponseType(400)]
-//        public IActionResult GetCategoryByName(string name)
-//        {
-//            var category = _categoryRepository.GetCategoryByName(name)
-//            //if (!_categoryRepository.CategoriesExists(categoryId))
-//            //    return NotFound();
+        // get category by name
+        //TODO: need to fetch the id of that name -->> inside the repo not here!!!
+        [HttpGet("{name}")]
+        [ProducesResponseType(200, Type = typeof(Category))]
+        [ProducesResponseType(400)]
+        public IActionResult GetCategoryByName(string name)
+        {
+            //if (!_categoryRepository.CategoriesExists(categoryId))
+            //    return NotFound();
 
-//            var pokemon = _mapper.Map<CategoryDto>(_categoryRepository.GetCategoryByID(categoryId));
+            var category = _mapper.Map<CategoryDto>(_categoryRepository.GetCategoryByName(name));
 
-//            return Ok(pokemon)
-//;
-//        }
+            return Ok(category);
+;
+        }
         // get all categories
         [HttpGet]
         [ProducesResponseType(200, Type= typeof(IEnumerable<Category>))]
