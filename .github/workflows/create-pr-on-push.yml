@@ -2,9 +2,7 @@ name: Create Pull Request on Branch Push
 
 on:
   push:
-    branches-ignore:
-      - master  # Ignore the master branch for PR creation
-
+  
 jobs:
   create-pr:
     runs-on: ubuntu-latest
