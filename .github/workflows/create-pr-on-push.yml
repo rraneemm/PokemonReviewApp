@@ -1,9 +1,9 @@
-name: Create Pull Request On Branch Push
+name: Create Pull Request on Branch Push
 
 on:
   push:
     branches-ignore:
-      - master
+      - master  # Ignore the master branch for PR creation
 
 jobs:
   create-pr:
@@ -13,31 +13,31 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
       
-    - name: Set up Github token
+    - name: Set up GitHub token
       env: 
-        GITHUB_TOKE: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Corrected from GITHUB_TOKE to GITHUB_TOKEN
 
     - name: Create pull request
       id: create_pr
-      uses: actions/github-scripts@v6
+      uses: actions/github-script@v6  # Corrected 'github-scripts' to 'github-script'
       with:
         script: |
           const { owner, repo } = context.repo;
-          const base = 'master';
-          const head = context.ref.replace('refs/head/', '');
+          const base = 'master';  // The base branch where you want to merge the PR
+          const head = context.ref.replace('refs/heads/', '');  // Corrected 'refs/head/' to 'refs/heads/'
           const prTitle = `Pull Request for ${head}`;
-          const prBody = `This PR is automatically created from branch '${head}' to merge on '${base}'.`;
+          const prBody = `This PR is automatically created from branch '${head}' to merge into '${base}'.`;
 
-          //Check if PR alredy exists for this branch
+          // Check if a PR already exists for this branch
           const existingPR = await github.pulls.list({
             owner,
             repo,
             state: 'open',
-            head: `${owner}: ${head}`,
+            head: `${owner}:${head}`,  // Corrected from `${owner}: ${head}` (extra space)
             base
           });
 
-          if(existingPR.data.length === 0){
+          if (existingPR.data.length === 0) {
             await github.pulls.create({
               owner,
               repo,
@@ -48,6 +48,5 @@ jobs:
             });
             core.info(`Pull request created: ${prTitle}`);
           } else {
-            core.infor('Pull request already exists for this branch.');
+            core.info('Pull request already exists for this branch.');  // Corrected 'core.infor' to 'core.info'
           }
-          
