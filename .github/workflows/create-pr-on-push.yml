@@ -1,0 +1,53 @@
+name: Create Pull Request On Branch Push
+
+on:
+  push:
+    branches-ignore:
+      - master
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Set up Github token
+      env: 
+        GITHUB_TOKE: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create pull request
+      id: create_pr
+      uses: actions/github-scripts@v6
+      with:
+        script: |
+          const { owner, repo } = context.repo;
+          const base = 'master';
+          const head = context.ref.replace('refs/head/', '');
+          const prTitle = `Pull Request for ${head}`;
+          const prBody = `This PR is automatically created from branch '${head}' to merge on '${base}'.`;
+
+          //Check if PR alredy exists for this branch
+          const existingPR = await github.pulls.list({
+            owner,
+            repo,
+            state: 'open',
+            head: `${owner}: ${head}`,
+            base
+          });
+
+          if(existingPR.data.length === 0){
+            await github.pulls.create({
+              owner,
+              repo,
+              title: prTitle,
+              head,
+              base,
+              body: prBody
+            });
+            core.info(`Pull request created: ${prTitle}`);
+          } else {
+            core.infor('Pull request already exists for this branch.');
+          }
+          
