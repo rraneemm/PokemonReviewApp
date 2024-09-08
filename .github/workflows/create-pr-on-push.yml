@@ -3,8 +3,8 @@ name: Create Pull Request on Branch Push
 on:
   push:
     branches:
-      - '**'
-  
+      - '**'  # Matches all branches
+
 jobs:
   create-pr:
     runs-on: ubuntu-latest
@@ -12,19 +12,17 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-      
+
     - name: Set up GitHub token
-      env: 
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Corrected from GITHUB_TOKE to GITHUB_TOKEN
+      run: echo "${{ secrets.GITHUB_TOKEN }}"  # Ensure that GitHub token is correctly passed
 
     - name: Create pull request
-      id: create_pr
-      uses: actions/github-script@v6  # Corrected 'github-scripts' to 'github-script'
+      uses: actions/github-script@v6
       with:
         script: |
           const { owner, repo } = context.repo;
           const base = 'master';  // The base branch where you want to merge the PR
-          const head = context.ref.replace('refs/heads/', '');  // Corrected 'refs/head/' to 'refs/heads/'
+          const head = context.ref.replace('refs/heads/', '');  // Corrected to 'refs/heads/'
           const prTitle = `Pull Request for ${head}`;
           const prBody = `This PR is automatically created from branch '${head}' to merge into '${base}'.`;
 
@@ -46,7 +44,9 @@ jobs:
               base,
               body: prBody
             });
-            core.info(`Pull request created: ${prTitle}`);
+            console.log(`Pull request created: ${prTitle}`);  // Use console.log for output
           } else {
-            core.info('Pull request already exists for this branch.');  // Corrected 'core.infor' to 'core.info'
+            console.log('Pull request already exists for this branch.');  // Use console.log for output
           }
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Environment variable required for GitHub Script action
