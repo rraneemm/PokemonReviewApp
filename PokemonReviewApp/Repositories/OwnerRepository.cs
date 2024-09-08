@@ -27,6 +27,11 @@ namespace PokemonReviewApp.Repositories
             _context.Remove(owner);
             return Save();        }
 
+        public Country GetCountryOfOwner(int ownerId)
+        {
+            return _context.Owners.Where(o => o.Id == ownerId).Select(o => o.Country).FirstOrDefault();
+        }
+
         public Owner GetOwnerById(int id)
         {
             return _context.Owners.Where(o => o.Id == id).FirstOrDefault();
