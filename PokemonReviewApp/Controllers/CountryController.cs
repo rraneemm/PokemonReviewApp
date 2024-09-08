@@ -7,14 +7,18 @@ using PokemonReviewApp.Interfaces;
 
 namespace PokemonReviewApp.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class CountryController : Controller
     {
         private readonly ICountryRepository _countryRepository;
+        private readonly IOwnerRepository _ownerRepository;
         private readonly IMapper _mapper;
 
-        public CountryController(ICountryRepository countryRepository, IMapper mapper)
+        public CountryController(ICountryRepository countryRepository, IMapper mapper, IOwnerRepository ownerRepository)
         {
             _countryRepository = countryRepository;
+            _ownerRepository = ownerRepository;
             _mapper = mapper;
         }
 
@@ -61,9 +65,9 @@ namespace PokemonReviewApp.Controllers
 
         }
 
-        /*
+        
         [HttpGet("{ownerId}")]
-        [ProducesReponseType(200, Type = typeof(Owner))]
+        [ProducesResponseType(200, Type = typeof(Owner))]
         public IActionResult GetCountryOfOwner(int ownerId)
         {
             
@@ -72,7 +76,7 @@ namespace PokemonReviewApp.Controllers
             var country = _mapper.Map<OwnerDto>(_ownerRepository.GetCountryOfOwner(ownerId));
             return Ok(country);
         }
-         */
+         
 
         [HttpPost]
         [ProducesResponseType(204)]
