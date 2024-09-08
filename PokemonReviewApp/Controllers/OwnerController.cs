@@ -57,7 +57,7 @@ namespace PokemonReviewApp.Controllers
             //if (!_ownerRepository.OwnerExists(ownerId))
             //    return NotFound();
 
-            var owner = _mapper.Map<OwnerDto>(_ownerRepository.GetOwnerByName(ownerName);
+            var owner = _mapper.Map<OwnerDto>(_ownerRepository.GetOwnerByName(ownerName));
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -165,7 +165,7 @@ namespace PokemonReviewApp.Controllers
 
             var owner = _ownerRepository.GetOwnerById(ownerId);
 
-            if (!_ownerRepository.DeleteOwner(owner){
+            if (!_ownerRepository.DeleteOwner(owner)){
                 ModelState.AddModelError("", "Something Went Wrong");
                 return StatusCode(500, ModelState);
             }

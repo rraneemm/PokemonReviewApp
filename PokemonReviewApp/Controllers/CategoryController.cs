@@ -125,7 +125,7 @@ namespace PokemonReviewApp.Controllers
 
             if (!_categoryRepository.UpdateCategory(categoryMap))
             {
-                ModelState.AddModelError("", "Somethign went wrong while changing data.")
+                ModelState.AddModelError("", "Somethign went wrong while changing data.");
                     return StatusCode(500, ModelState);
             }
 
@@ -148,7 +148,7 @@ namespace PokemonReviewApp.Controllers
 
             if (!_categoryRepository.DeleteCategory(category))
             {
-                ModelState.AddModelError("", "Something went wrong while deleting")
+                ModelState.AddModelError("", "Something went wrong while deleting");
                     return StatusCode(500, ModelState);
             }
 

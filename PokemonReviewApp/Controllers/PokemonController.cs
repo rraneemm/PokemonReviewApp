@@ -118,7 +118,7 @@ namespace PokemonReviewApp.Controllers
 
             var pokemonMap = _mapper.Map<Pokemon>(createdPokemon);
 
-            if(!_pokemonRepository.CreatePokemon(ownerId, categoryId, pokemonMap){
+            if(!_pokemonRepository.CreatePokemon(ownerId, categoryId, pokemonMap)){
                 ModelState.AddModelError("", "Something Went Wrong");
                 return StatusCode(500, ModelState);
             }
