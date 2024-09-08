@@ -13,40 +13,42 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Set up GitHub token
-      run: echo "${{ secrets.GITHUB_TOKEN }}"  # Ensure that GitHub token is correctly passed
-
     - name: Create pull request
       uses: actions/github-script@v6
       with:
         script: |
           const { owner, repo } = context.repo;
           const base = 'master';  // The base branch where you want to merge the PR
-          const head = context.ref.replace('refs/heads/', '');  // Corrected to 'refs/heads/'
+          const head = context.ref.replace('refs/heads/', '');  // Extract branch name from ref
           const prTitle = `Pull Request for ${head}`;
           const prBody = `This PR is automatically created from branch '${head}' to merge into '${base}'.`;
 
-          // Check if a PR already exists for this branch
-          const existingPR = await github.pulls.list({
-            owner,
-            repo,
-            state: 'open',
-            head: `${owner}:${head}`,  // Corrected from `${owner}: ${head}` (extra space)
-            base
-          });
-
-          if (existingPR.data.length === 0) {
-            await github.pulls.create({
+          try {
+            // Check if a PR already exists for this branch
+            const existingPRs = await github.pulls.list({
               owner,
               repo,
-              title: prTitle,
-              head,
-              base,
-              body: prBody
+              state: 'open',
+              head: `${owner}:${head}`,  // Filter by head branch
+              base
             });
-            console.log(`Pull request created: ${prTitle}`);  // Use console.log for output
-          } else {
-            console.log('Pull request already exists for this branch.');  // Use console.log for output
+
+            // If no PRs exist for this branch, create a new one
+            if (existingPRs.data.length === 0) {
+              await github.pulls.create({
+                owner,
+                repo,
+                title: prTitle,
+                head,
+                base,
+                body: prBody
+              });
+              console.log(`Pull request created: ${prTitle}`);
+            } else {
+              console.log('Pull request already exists for this branch.');
+            }
+          } catch (error) {
+            console.error("Error checking or creating PR: ", error);
           }
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Environment variable required for GitHub Script action
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
