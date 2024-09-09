@@ -10,7 +10,7 @@ namespace PokemonReviewApp.Repositories
         private readonly DataContext _context;
         
 
-        public ReviewerRepository(DataContext context, )
+        public ReviewerRepository(DataContext context)
         {
 
             _context = context;

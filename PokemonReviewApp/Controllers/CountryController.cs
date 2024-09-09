@@ -49,7 +49,7 @@ namespace PokemonReviewApp.Controllers
             return Ok(country);
         }
 
-        [HttpGet("{countryName}")]
+        [HttpGet("{countryName}/name")]
         [ProducesResponseType(200, Type = typeof(Country))]
         public IActionResult GetCountryByName(string countryName)
         {
@@ -66,7 +66,7 @@ namespace PokemonReviewApp.Controllers
         }
 
         
-        [HttpGet("{ownerId}")]
+        [HttpGet("{ownerId}/owner")]
         [ProducesResponseType(200, Type = typeof(Owner))]
         public IActionResult GetCountryOfOwner(int ownerId)
         {
