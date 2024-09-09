@@ -71,7 +71,7 @@ namespace PokemonReviewApp.Controllers
             return Ok(rating);
         }
 
-        [HttpGet("{categoryId}")]
+        [HttpGet("{categoryId}/category")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Category>))]
         public IActionResult GetPokemonsByCategoryId(int categoryId)
         {
@@ -85,7 +85,7 @@ namespace PokemonReviewApp.Controllers
         }
 
 
-        [HttpGet("{ownerId}")]
+        [HttpGet("{ownerId}/owner")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Pokemon>))]
         public IActionResult GetPokemonsByOwnerId(int ownerId)
         {

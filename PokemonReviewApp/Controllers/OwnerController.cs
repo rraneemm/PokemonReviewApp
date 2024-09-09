@@ -50,7 +50,7 @@ namespace PokemonReviewApp.Controllers
             return Ok(owner);
         }
 
-        [HttpGet("{ownerName}")]
+        [HttpGet("{ownerName}/name")]
         [ProducesResponseType(200, Type = typeof(Owner))]
         public IActionResult GetOwnerByName(string ownerName)
         {
@@ -65,7 +65,7 @@ namespace PokemonReviewApp.Controllers
             return Ok(owner);
         }
 
-        [HttpGet("{countryId}")]
+        [HttpGet("{countryId}/country")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Owner>))]
         public IActionResult GetOwnersByCountryId(int countryId)
         {
@@ -78,7 +78,7 @@ namespace PokemonReviewApp.Controllers
 
         }
 
-        [HttpGet("{pokemonId}")]
+        [HttpGet("{pokemonId}/pokemon")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Owner>))]
         public IActionResult GetOwnersOfPokemon(int pokemonId)
         {

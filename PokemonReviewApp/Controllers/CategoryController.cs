@@ -39,7 +39,7 @@ namespace PokemonReviewApp.Controllers
 
         // get category by name
 
-        [HttpGet("{categoryName}")]
+        [HttpGet("{categoryName}/name")]
         [ProducesResponseType(200, Type = typeof(Category))]
         [ProducesResponseType(400)]
         public IActionResult GetCategoryByName(string categoryName)
