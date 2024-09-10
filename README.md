@@ -119,11 +119,17 @@ PokemonReviewApp/
 ```
 #### Key Folders
 **Controllers**: Handles API requests and sends responses.
+
 **Dtos**: Data Transfer Objects used to transfer data between client and server.
+
 **Interfaces**: Defines the contract for repositories.
+
 **Repositories**: Implements data access logic.
+
 **Models**: Database entities representing Pokémon, categories, owners, and reviews.
+
 **AutoMapperProfiles**: Configuration for AutoM
+
 ### Usage
 - **Swagger UI**: Open [http://localhost:3000/swagger](http://localhost:3000/swagger) in your browser to access the Swagger UI for testing the APIs interactively.
 - **Postman**: Import the API collection from the Swagger endpoint to test the APIs in Postman(optional).
